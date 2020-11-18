@@ -20,15 +20,21 @@ searchButton.addEventListener('click', function () {
     starWars.searchCharacters(input.value)
       .then(character => {
         spinner.style.visibility = 'hidden';
-        if (character.results[0]) {
-          console.log(character);
-          content.innerHTML =
-            `${character.results[0].name} <br> year of birth: ${character.results[0].birth_year} <br> eye color: ${character.results[0].eye_color} <br>`
-          container.style.visibility = 'visible';
-          delButton.addEventListener('click', function () {
-          container.style.visibility = 'hidden';
-        })
-      }
-    });
+        planetLink = character.results[0].homeworld;
+        planetId = planetLink.match(/\d+/);
+        console.log(planetId);
+        return starWars.searchPlanets(planetId)
+          .then(planet => {
+            console.log(planet);
+            content.innerHTML =
+              `${character.results[0].name} <br> year of birth: ${character.results[0].birth_year} <br> eye color: ${character.results[0].eye_color} <br> home world: ${planet.name}`
+            container.style.visibility = 'visible';
+            delButton.addEventListener('click', function () {
+              container.style.visibility = 'hidden';
+            })
+          })
+      })
   }
-});
+})
+
+
