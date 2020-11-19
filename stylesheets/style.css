@@ -47,7 +47,10 @@ ul>li>ul>li {
   -moz-animation: spin 1s linear infinite;
   animation: spin 1s linear infinite;
 }
-
+select, option {
+  background-color: white;
+  border-color: white;
+}
 @-moz-keyframes spin {
   100% {
     -moz-transform: rotate(360deg);

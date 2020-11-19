@@ -32,7 +32,13 @@
     <section class="section">
       <div class="column is-half is-offset-2">
         <div id="byQueryBlock" class="search">
-          <input class="is-large input" type="text" placeholder="Search...">
+            <select id="selectSearch">
+              <option>Choose Search</option>
+              <option value="character">Characters</option>
+              <option value="home">Home world</option>
+              <option value="species">Species</option>
+            </select>
+            <input class="is-large input" type="text" placeholder="Search...">
           <button id="byQueryBtn" class="is-large button">Search</button>
         </div>
       </div>

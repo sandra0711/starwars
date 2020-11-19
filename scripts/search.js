@@ -1,3 +1,7 @@
+// const fs = require("fs").promises;
+// const fsOld = require("fs");
+
+
 // Методы, которые могут пригодиться:
 // starWars.searchPlanets(query), 
 // starWars.searchSpecies(query).
@@ -6,6 +10,7 @@
 // starWars.getSpeciesById(id)
 
 // Тут ваш код.
+
 
 const searchButton = document.querySelector('#byQueryBtn');
 const input = document.querySelector('input');
@@ -16,25 +21,33 @@ const content = document.querySelector('#content');
 const delButton = document.querySelector('.delete');
 
 searchButton.addEventListener('click', function () {
+  spinner.style.visibility = 'visible';
   if (input.value) {
-    starWars.searchCharacters(input.value)
-      .then(character => {
-        spinner.style.visibility = 'hidden';
-        planetLink = character.results[0].homeworld;
-        planetId = planetLink.match(/\d+/);
-        console.log(planetId);
-        return starWars.searchPlanets(planetId)
-          .then(planet => {
-            console.log(planet);
-            content.innerHTML =
-              `${character.results[0].name} <br> year of birth: ${character.results[0].birth_year} <br> eye color: ${character.results[0].eye_color} <br> home world: ${planet.name}`
-            container.style.visibility = 'visible';
-            delButton.addEventListener('click', function () {
-              container.style.visibility = 'hidden';
-            })
+    let selectedSearch = selectSearch.value;
+    if (selectedSearch == 'character') {
+      let characterSearch = [];
+      starWars.searchCharacters(input.value)
+        .then(character => {
+          planetLink = character.results[0].homeworld;
+          planetId = String(planetLink.match(/\d+/));
+          characterSearch = character.results[0];
+          return starWars.searchPlanets(planetId);
+        })
+        .then(planet => {
+          content.innerHTML =
+            `${characterSearch.name} <br> year of birth: ${characterSearch.birth_year} <br> eye color: ${characterSearch.eye_color} <br> home world: ${planet.name}`
+          container.style.visibility = 'visible';
+          delButton.addEventListener('click', function () {
+            container.style.visibility = 'hidden';
           })
-      })
+          spinner.style.visibility = 'hidden';
+        })
+    } 
   }
+  spinner.style.visibility = 'hidden';
 })
 
+// let selectedSearch = selectSearch.value;
+//   if (selectedSearch=='character') {
 
+//     spinner.style.visibility = 'hidden';
