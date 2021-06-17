@@ -24,13 +24,14 @@ searchButton.addEventListener('click', function () {
   spinner.style.visibility = 'visible';
   if (input.value) {
     let selectedSearch = selectSearch.value;
+    let characterSearch = [];
     if (selectedSearch == 'character') {
-      let characterSearch = [];
       starWars.searchCharacters(input.value)
         .then(character => {
           planetLink = character.results[0].homeworld;
           planetId = String(planetLink.match(/\d+/));
           characterSearch = character.results[0];
+          console.log(characterSearch)
           return starWars.searchPlanets(planetId);
         })
         .then(planet => {
@@ -42,9 +43,20 @@ searchButton.addEventListener('click', function () {
           })
           spinner.style.visibility = 'hidden';
         })
-    } 
+    }
+    else if (selectedSearch == 'species') {
+      starWars.searchSpecies(input.value)
+        .then(species => {
+          characterSearch = species.results[0];
+          console.log(characterSearch)
+          spinner.style.visibility = 'hidden';
+          container.style.visibility = 'visible';
+          content.innerHTML = `${characterSearch.name}`;
+        })
+        // .catch(err => console.log('Wrong input'))
+    }
   }
-  spinner.style.visibility = 'hidden';
+  // spinner.styl e.visibility = 'hidden';
 })
 
 // let selectedSearch = selectSearch.value;
